@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote để điều khiển Tivi</title>
+</head>
+
+<body>
+    <script>
+        class Tivi {
+            kenhNow;
+            amLuong;
+            sattus;
+            constructor(kenhNow, amLuong, sattus) {
+                this.kenhNow = kenhNow;
+                this.amLuong = amLuong;
+                this.sattus = false;
+            }
+            turnOn() {
+                this.sattus = true;
+                console.log('Bật TV');
+            }
+            turnOff() {
+                this.sattus = false;
+                console.log('Tắt TV');
+            }
+            chuyenKenh(doiKenh) {
+                if (this.sattus) {
+                    this.kenhNow = doiKenh;
+                    console.log('TV tự chuyển đến kênh: ' + this.kenhNow);
+                }
+                else alert('Bật TV lên nào!');
+            }
+            changeAmLuong(doiAmLuong) {
+                if (this.sattus) {
+                    this.amLuong += doiAmLuong;
+                    console.log('TV tự thay đổi âm lượng: ' + this.amLuong);
+                }
+                else alert('Bật TV lên nào!');
+            }
+        }
+        class Remote {
+            maCode;
+            constructor(maCode) {
+                this.maCode = maCode;
+            }
+            doiKenh(tivi, kenh) {
+                tivi.kenhNow = kenh;
+                console.log('Remote điều khiển TV sang kênh: ' + tivi.kenhNow);
+            }
+            doiAmLuong(tivi, amLuong) {
+                tivi.amLuong += amLuong;
+                console.log('Remote điều khiển âm lượng TV: ' + tivi.amLuong);
+            }
+        }
+        var remote = new Remote();
+        var tivi = new Tivi(1, 5, 'Tắt');
+        console.log(tivi);
+        tivi.turnOn();
+        tivi.chuyenKenh(7);
+        remote.doiKenh(tivi, 3);
+        tivi.changeAmLuong(2);
+        remote.maCode = tivi.turnOff();
+    </script>
+</body>
+
+</html>

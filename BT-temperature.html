@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xây dựng lớp mô tả Temperature</title>
+</head>
+
+<body>
+    <script>
+        var Temperature = function (nhietDoC) {
+            if (nhietDoC >= -273) {
+                this.nhietDoC = nhietDoC;
+                this.chuyenDoF = function () {
+                    return 1.8 * nhietDoC + 32;
+                }
+                this.chuyenDoK = function () {
+                    return nhietDoC + 273;
+                }
+            }
+            else alert('Không hợp lệ!')
+        }
+        var nhapDoC = +prompt('Nhập giá trị nhiệt độ C(Cencius): ')
+        var temperature = new Temperature(nhapDoC);
+        var doF = temperature.chuyenDoF();
+        var doK = temperature.chuyenDoK();
+        alert(nhapDoC + ' độ C(Cencius) bằng ' + doF + ' độ F(Fahrenheit)và bằng ' + doK + ' độ K(Kevin)');
+    </script>
+</body>
+
+</html>

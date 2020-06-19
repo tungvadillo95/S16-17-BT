@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Mobile {
+            pin; status; nhap; inbox; sent;
+            constructor(pin) {
+                this.pin = pin;
+                this.status = false;
+                this.nhap = [];
+                this.inbox = [];
+                this.sent = [];
+            }
+            isOn() {
+                this.giamPin();
+                return this.status;
+            }
+            boggleMode() {
+                this.status = !this.status;
+                this.giamPin();
+            }
+            change() {
+                if (this.pin < 100) {
+                    this.pin++;
+                }
+            }
+            text(content) {
+                if (!this.isOn()) {
+                    return;
+                };
+                this.nhap.unshift(content);
+                this.giamPin();
+            }
+            receive(msg) {
+                if (!this.isOn()) {
+                    return;
+                };
+                this.inbox.unshift(msg);
+                this.giamPin();
+            }
+            send(mobile) {
+                if (!this.isOn()) {
+                    return;
+                };
+                mobile.receive(this.nhap);
+                this.sent.unshift(this.nhap);
+                this.giamPin();
+
+            }
+            getMsgInbox(index) {
+                if (!this.isOn()) {
+                    return;
+                };
+                return this.inbox[index];
+                this.giamPin();
+            }
+            getMsgSent(index) {
+                if (!this.isOn()) {
+                    return;
+                };
+                return this.sent[index];
+                this.giamPin();
+            }
+            giamPin() {
+                if (this.pin > 0) {
+                    this.pin--;
+                }
+            }
+        }
+        let mobi1 = new Mobile(50);
+        let mobi2 = new Mobile(50);
+        mobi1.boggleMode();
+        mobi2.boggleMode();
+        mobi1.text('Hello');
+        mobi1.send(mobi2);
+        console.log(mobi1.sent);
+        console.log(mobi2.inbox);
+    </script>
+</body>
+
+</html>

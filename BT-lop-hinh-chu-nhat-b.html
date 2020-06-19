@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="1368px" height="768px" style="border:1px solid #d3d3d3;"></canvas>
+    <script>
+        class Rectangle {
+            chieuDai;
+            chieuRong;
+            constructor(chieuDai, chieuRong) {
+                this.chieuDai = chieuDai;
+                this.chieuRong = chieuRong;
+            }
+            tinhDienTich() {
+                return this.chieuDai * this.chieuRong;
+            }
+            tinhChuVi() {
+                return (this.chieuDai + this.chieuRong) * 2;
+            }
+            veHinh() {
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                ctx.moveTo(0, 0);
+                ctx.lineTo(chieuDai, 0);
+                ctx.lineTo(chieuDai, chieuRong);
+                ctx.lineTo(0, chieuRong);
+                ctx.lineTo(0, 0);
+                ctx.stroke();
+            }
+        }
+        var chieuRong = +prompt('Nhập chiều rộng: ');
+        var chieuDai = +prompt('Nhập chiều dài: ');
+        var rectangle = new Rectangle(chieuDai, chieuRong);
+        rectangle.veHinh();
+        console.log('Diện tích hình chữ nhật: ' + rectangle.tinhDienTich());
+        console.log('Chu vi hình chữ nhật: ' + rectangle.tinhChuVi());
+    </script>
+</body>
+
+</html>

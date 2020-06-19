@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mèo bắt chuột và ăn chuột</title>
+</head>
+
+<body>
+    <script>
+        var Rat = function (name, weight, speed, status) {
+            this.name = name;
+            this.weight = weight;
+            this.speed = speed;
+            this.status = false;
+            this.say = function () {
+                if (!this.status) {
+                    console.log('Chít chít !')
+                    return 'chít chít';
+                }
+            }
+        }
+        var Cat = function (name, weight, speedMax) {
+            this.name = name;
+            this.weight = weight;
+            this.speedMax = speedMax;
+            this.say = function () {
+                console.log('Meo meo !');
+                return 'meo meo';
+            }
+            this.catchRat = function (rat) {
+                if (this.speedMax > rat.speed) {
+                    console.log('Mèo bắt được chuột');
+                    return true;
+                }
+                else {
+                    console.log('Mèo không bắt được chuột');
+                    return false;
+                }
+            }
+            this.eatRat = function (rat) {
+                debugger;
+                if ((this.catchRat(rat)) && (!rat.status)) {
+                    console.log('Mèo ăn thịt chuột');
+                    this.weight = this.weight + rat.weight;
+                }
+                else {
+                    console.log('Mèo không ăn được thịt chuột');
+                }
+            }
+        }
+        var ratt = new Rat('Twitch', 10, 20, false);
+        var cat = new Cat('Rengar', 40, 50);
+        cat.catchRat(ratt);
+        ratt.say();
+        cat.eatRat(ratt);
+        cat.say();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công tắc và bóng đèn</title>
+</head>
+
+<body>
+    <script>
+        var ElectricLamp = function (sattus) {
+            this.sattus = status;
+            this.turnOff = function () {
+                this.sattus = false;
+            }
+            this.turnOn = function () {
+                this.sattus = true;
+            }
+        }
+        var SwichButton = function (sattus, lamp) {
+            this.sattus = status;
+            this.lamp = ElectricLamp();
+            this.connectToLamp = function (electricLamp) {
+                electricLamp.turnOn();
+            }
+            this.switchOff = function () {
+                this.sattus = false;
+                console.log('Tắt');
+            }
+            this.switchOn = function () {
+                this.sattus = true;
+                console.log('Bật');
+            }
+        }
+        var electricLamp = new ElectricLamp(false);
+        var swichbutton = new SwichButton(false, electricLamp)
+        swichbutton.connectToLamp(electricLamp);
+        for (let i = 0; i < 10; i++) {
+            swichbutton.switchOn();
+            //console.log('Bật');
+            swichbutton.switchOff();
+            //console.log('Tắt');
+        }
+
+    </script>
+</body>
+
+</html>
