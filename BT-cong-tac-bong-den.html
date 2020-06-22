@@ -20,9 +20,9 @@
         }
         var SwichButton = function (sattus, lamp) {
             this.sattus = status;
-            this.lamp = ElectricLamp();
-            this.connectToLamp = function (electricLamp) {
-                electricLamp.turnOn();
+            this.lamp = lamp;
+            this.connectToLamp = function (lamp) {
+                lamp.turnOn();
             }
             this.switchOff = function () {
                 this.sattus = false;

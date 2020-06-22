@@ -2,17 +2,215 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phát triển trò chơi cờ ca-ro</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    ​
+    <style>
+        .ban-co__oCo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
-    <button onclick="start()">Start</button>
-    <div id="game-board">
-    </div>
+    <div><button onclick="choiLai()">Start</button></div>
+    <div id="ban-co-container" style="position: relative;"></div>
     <script>
+        class BanCo {
+            banCo = [];
+            side = 10;
+            isX = true;
+            soThang = 5;
+            oCoSide = 30;
 
+            constructor() {
+                this.khoiTaoBanCo();
+                this.veBanCo();
+            }
+
+            khoiTaoBanCo() {
+                for (let i = 0; i < this.side; i++) {
+                    this.banCo[i] = [];
+
+                    for (let j = 0; j < this.side; j++) {
+                        this.banCo[i][j] = null;
+                    }
+                }
+            }
+
+            veBanCo() {
+                const container = document.querySelector("#ban-co-container");
+
+                container.innerHTML = null;
+
+                const veOCo = (i, j) => {
+                    const oCo = document.createElement("div");
+                    oCo.className = "ban-co__oCo";
+                    oCo.style.position = "absolute";
+
+                    // Set toạ độ cho ô cờ
+                    oCo.style.left = this.oCoSide * j + "px";
+                    oCo.style.top = this.oCoSide * i + "px";
+
+                    // Tạo border cho ô cờ
+                    oCo.style.border = "1px solid silver";
+
+                    // Set chiều cao chiều rộng cho ô cờ
+                    oCo.style.width = oCo.style.height = this.oCoSide + "px";
+
+                    // Set nội dung html cho ô cờ
+                    oCo.innerHTML = this.banCo[i][j];
+
+                    // Thêm xử lý sự kiện vào event click của ô cờ
+                    oCo.addEventListener("click", () => this.xuLyClick(i, j));
+
+                    return oCo;
+                };
+
+                this.banCo.forEach((row, indexR) => {
+                    row.forEach((elem, indexC) =>
+                        container.appendChild(veOCo(indexR, indexC))
+                    );
+                });
+            }
+
+            xuLyClick(i, j) {
+                if (this.banCo[i][j] == null) {
+                    this.banCo[i][j] = this.isX ? "X" : "O";
+                    console.log(`i: ${i} , j: ${j}`)
+                    this.kiemTraThangThua(i, j);
+
+                    this.isX = !this.isX;
+
+                    this.veBanCo();
+                }
+            }
+
+            kiemTraThangThua(i, j) {
+                // X | O | undefined || null
+
+                if (
+                    this.kiemTraHangNgang(i, j) ||
+                    this.kiemTraHangDoc(i, j) ||
+                    this.kiemTraCheoChinh(i, j) ||
+                    this.kiemTraCheoPhu(i, j)
+                ) {
+                    alert(`Người chơi ${this.isX ? "X" : "O"} thắng!!`);
+                }
+
+                return null;
+            }
+
+            kiemTraHangNgang(i, j) {
+                // boolean
+                let countLeft = 0;
+
+                for (let index = j; index >= 0; index--) {
+                    if (this.banCo[i][index] == this.banCo[i][j]) {
+                        countLeft++;
+                    } else {
+                        break;
+                    }
+                }
+
+                let countRight = 0;
+
+                for (let index = j; index < this.side; index++) {
+                    if (this.banCo[i][index] == this.banCo[i][j]) {
+                        countRight++;
+                    } else {
+                        break;
+                    }
+                }
+                const count = countLeft + countRight;
+
+                return count == this.soThang + 1;
+            }
+
+            kiemTraHangDoc(i, j) {
+                // boolean
+                let countUp = 0;
+
+                for (let index = i; index >= 0; index--) {
+                    if (this.banCo[index][j] == this.banCo[i][j]) {
+                        countUp++;
+                    } else {
+                        break;
+                    }
+                }
+
+                let countDown = 0;
+
+                for (let index = i; index < this.side; index++) {
+                    if (this.banCo[index][j] == this.banCo[i][j]) {
+                        countDown++;
+                    } else {
+                        break;
+                    }
+                }
+                const count = countUp + countDown;
+
+                return count == this.soThang + 1;
+            }
+
+            kiemTraCheoChinh(i, j) {
+                var crossLeft1 = 0;
+                for (let hang = i, cot = j; hang >= 0 && cot >= 0; hang--, cot--) {
+                    if (this.banCo[hang][cot] == this.banCo[i][j]) {
+                        crossLeft1++;
+                    } else {
+                        break;
+                    }
+
+                }
+
+                var crossRight1 = 0;
+
+                for (let hang = i, cot = j; hang < this.side && cot < this.side; hang++, cot++) {
+                    if (this.banCo[hang][cot] == this.banCo[i][j]) {
+                        crossRight1++;
+                    } else {
+                        break;
+                    }
+                }
+                const count = crossLeft1 + crossRight1;
+
+
+                return count == this.soThang + 1
+            }
+
+            kiemTraCheoPhu(i, j) {
+                var crossLeft2 = 0;
+                for (let hang = i, cot = j; hang < this.side && cot >= 0; hang++, cot--) {
+                    if (this.banCo[hang][cot] == this.banCo[i][j]) {
+                        crossLeft2++;
+                    } else {
+                        break;
+                    }
+                }
+                var crossRight2 = 0;
+                for (let hang = i, cot = j; hang >= 0 && cot < this.side; hang--, cot++) {
+                    if (this.banCo[hang][cot] == this.banCo[i][j]) {
+                        crossRight2++;
+                    } else {
+                        break;
+                    }
+                }
+                const count = crossLeft2 + crossRight2;
+                return count == this.soThang + 1
+            }
+
+        }
+        function choiLai() {
+            chess.khoiTaoBanCo();
+            chess.veBanCo();
+            chess.isX = true;
+        }
+
+        const chess = new BanCo();
     </script>
 </body>
 

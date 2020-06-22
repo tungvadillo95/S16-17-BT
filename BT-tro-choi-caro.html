@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: auto;
+        }
+
+        td {
+            width: 30px;
+            height: 30px;
+            background-color: rgb(255, 115, 0);
+            color: whitesmoke;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div><button onclick="choiLai()">Start</button></div>
+    <div id='board'></div>
+
+    <script>
+        let check = true;
+        let arr;
+        var soThang = 5;
+        function drawTable(arr) {
+            let str = "<table border='1'>";
+            for (let i = 0; i < arr.length; i++) {
+                str += "<tr>";
+                for (let j = 0; j < arr[i].length; j++) {
+                    str += `<td  onclick="play(${i},${j})">${arr[i][j]}</td>`;
+                }
+                str += "</tr>";
+            }
+            str += "</table>";
+            document.getElementById('board').innerHTML = str;
+        }
+        function creatArr(dai, rong) {
+            let arr = [];
+            for (let i = 0; i < dai; i++) {
+                arr[i] = [];
+                for (let j = 0; j < rong; j++) {
+                    arr[i][j] = '';
+                }
+            }
+            return arr
+        }
+        function play(i, j,) {
+            if (check && arr[i][j] == "") {
+                arr[i][j] = 'X';
+                check = !check;
+            } else if (arr[i][j] == "") {
+                arr[i][j] = 'O';
+                check = !check;
+            }
+            drawTable(arr);
+            kiemTraThangThua(i, j);
+        }
+        function innit() {
+            let soHang = +prompt('Nhập số hàng: ', 0);
+            let soCot = +prompt('Nhập số cột: ', 0);
+            arr = creatArr(soHang, soCot);
+            drawTable(arr);
+        }
+        innit();
+        function kiemTraThangThua(i, j) {
+            // X | O | undefined || null
+
+            if (
+                this.kiemTraHangNgang(i, j) ||
+                this.kiemTraHangDoc(i, j) ||
+                this.kiemTraCheoChinh(i, j) ||
+                this.kiemTraCheoPhu(i, j)
+            ) {
+                alert(`Người chơi ${this.isX ? "X" : "O"} thắng!!`)
+            }
+
+            return null;
+        }
+
+        function kiemTraHangNgang(i, j) {
+            // boolean
+            let countLeft = 0;
+
+            for (let index = j; index >= 0; index--) {
+                if (arr[i][index] == arr[i][j]) {
+                    countLeft++;
+                } else {
+                    break;
+                }
+            }
+
+            let countRight = 0;
+
+            for (let index = j; index < this.side; index++) {
+                if (arr[i][index] == arr[i][j]) {
+                    countRight++;
+                } else {
+                    break;
+                }
+            }
+            const count = countLeft + countRight;
+
+            return count == this.soThang + 1;
+        }
+
+        function kiemTraHangDoc(i, j) {
+            // boolean
+            let countUp = 0;
+
+            for (let index = i; index >= 0; index--) {
+                if (this.banCo[index][j] == this.banCo[i][j]) {
+                    countUp++;
+                } else {
+                    break;
+                }
+            }
+
+            let countDown = 0;
+
+            for (let index = i; index < this.side; index++) {
+                if (this.banCo[index][j] == this.banCo[i][j]) {
+                    countDown++;
+                } else {
+                    break;
+                }
+            }
+            const count = countUp + countDown;
+
+            return count == this.soThang + 1;
+        }
+
+        function kiemTraCheoChinh(i, j) {
+            // boolean
+            return false;
+        }
+
+        function kiemTraCheoPhu(i, j) {
+            // boolean
+            return false;
+        }
+
+        /*function whoWin(arr) {
+            for (let h = 0; h < arr.length; h++) {
+                for (let c = 0; c < arr[h].length; c++) {
+                    if ((arr[h][c] == 'X') && (arr[h][c + 1] == 'X') && (arr[h][c + 2] == 'X') && (arr[h][c + 3] == 'X') && (arr[h][c + 4] == 'X') && ((arr[h][c + 5] != 'O') || (arr[h][c - 1] != 'O'))) {
+                        alert('Người đánh X thắng !');
+                    }
+                    else if ((arr[h][c] == 'O') && (arr[h][c + 1] == 'O') && (arr[h][c + 2] == 'O') && (arr[h][c + 3] == 'O') && (arr[h][c + 4] == 'O') && ((arr[h][c + 5] != 'X') || (arr[h][c - 1] != 'X'))) {
+                        alert('Người đánh O thắng !');
+                    }
+                }
+            }
+            for (let h = 0; h < arr.length; h++) {
+                for (let c = 0; c < arr[h].length; c++) {
+                    if ((arr[h][c] == 'X') && (arr[h + 1][c] == 'X') && (arr[h + 2][c] == 'X') && (arr[h + 3][c] == 'X') && (arr[h + 4][c] == 'X') && ((arr[h + 5][c] != 'O') || (arr[h - 1][c] != 'O'))) {
+                        alert('Người đánh X thắng !');
+                    }
+                    else if ((arr[h][c] == 'O') && (arr[h + 1][c] == 'O') && (arr[h + 2][c] == 'O') && (arr[h + 3][c] == 'O') && (arr[h + 4][c] == 'O') && ((arr[h + 5][c] != 'O') || (arr[h - 1][c] != 'O'))) {
+                        alert('Người đánh O thắng !');
+                    }
+                }
+            }
+            for (let h = 0; h < arr.length; h++) {
+                for (let c = 0; c < arr[h].length; c++) {
+                    if ((arr[h][c] == 'X') && (arr[h + 1][c + 1] == 'X') && (arr[h + 2][c + 2] == 'X') && (arr[h + 3][c + 3] == 'X') && (arr[h + 4][c + 4] == 'X')
+                        || (arr[h][c] == 'X') && (arr[h - 1][c + 1] == 'X') && (arr[h - 2][c + 2] == 'X') && (arr[h - 3][c + 3] == 'X') && (arr[h - 4][c + 4] == 'X')
+                        /*|| (arr[h][c] == 'X') && (arr[h - 1][c + 1] == 'X') && (arr[h - 2][c + 2] == 'X') && (arr[h + 1][c - 1] == 'X') && (arr[h + 2][c - 2] == 'X')
+                        || (arr[h][c] == 'X') && (arr[h + 1][c + 1] == 'X') && (arr[h + 2][c + 2] == 'X') && (arr[h - 1][c - 1] == 'X') && (arr[h - 2][c - 2] == 'X')
+                    ) {
+                        alert('Người đánh X thắng !');
+                    }
+                }
+            }
+            for (let h = 0; h < arr.length; h++) {
+                for (let c = 0; c < arr[h].length; c++) {
+                    if ((arr[h][c] == 'O') && (arr[h + 1][c + 1] == 'O') && (arr[h + 2][c + 2] == 'O') && (arr[h + 3][c + 3] == 'O') && (arr[h + 4][c + 4] == 'O')
+                        || (arr[h][c] == 'O') && (arr[h - 1][c + 1] == 'O') && (arr[h - 2][c + 2] == 'O') && (arr[h - 3][c + 3] == 'O') && (arr[h - 4][c + 4] == 'O')) {
+                        alert('Người đánh O thắng !');
+                    }
+                }
+            }
+        }*/
+        function choiLai() {
+            check = true;
+            innit();
+        }
+    </script>
+
+</body>
+
+</html>
