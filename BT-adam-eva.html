@@ -56,7 +56,7 @@
                 this.name = name;
             }
             this.getWeight = function () {
-                return this.weight;
+                return this.weight++;
             }
             this.setWeight = function (int) {
                 this.weight = weight;
@@ -68,11 +68,12 @@
         while (true) {
             if (!apple.isEmpty()) {
                 adam.eatApple(apple);
+                adam.getWeight();
                 console.log('Adam ăn');
             }
             if (!apple.isEmpty()) {
                 eva.eatApple(apple);
-
+                eva.getWeight();
                 console.log('Eva ăn');
             }
             if (apple.weight == 0) {
